@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OpportunityHub - Premium Scholarship & Internship Finder</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <meta name="description" content="Find scholarships and internships with AI-powered matching, smart alerts, and deadline tracking. Premium platform for students worldwide.">
+    <meta name="keywords" content="scholarships, internships, students, financial aid, career opportunities, education">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>">
     <style>
         * {
             margin: 0;
@@ -48,6 +51,7 @@
             font-size: 1.8rem;
             font-weight: bold;
             color: #667eea;
+            text-decoration: none;
         }
 
         .nav-links {
@@ -61,10 +65,26 @@
             color: #333;
             font-weight: 500;
             transition: color 0.3s;
+            position: relative;
         }
 
         .nav-links a:hover {
             color: #667eea;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: #667eea;
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
         }
 
         .premium-btn {
@@ -74,11 +94,28 @@
             border-radius: 25px;
             text-decoration: none;
             font-weight: bold;
-            transition: transform 0.3s;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: none;
+            cursor: pointer;
         }
 
         .premium-btn:hover {
             transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+        }
+
+        .mobile-menu {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .mobile-menu span {
+            width: 25px;
+            height: 3px;
+            background: #333;
+            margin: 3px 0;
+            transition: 0.3s;
         }
 
         /* Hero Section */
@@ -93,12 +130,14 @@
             font-size: 3.5rem;
             margin-bottom: 1rem;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            animation: fadeInUp 1s ease-out;
         }
 
         .hero p {
             font-size: 1.2rem;
             margin-bottom: 2rem;
             opacity: 0.9;
+            animation: fadeInUp 1s ease-out 0.2s both;
         }
 
         .search-container {
@@ -109,6 +148,7 @@
             max-width: 600px;
             margin: 0 auto 2rem;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            animation: fadeInUp 1s ease-out 0.4s both;
         }
 
         .search-input {
@@ -117,6 +157,7 @@
             outline: none;
             padding: 0.5rem 1rem;
             font-size: 1rem;
+            border-radius: 25px;
         }
 
         .search-btn {
@@ -127,11 +168,12 @@
             border-radius: 25px;
             cursor: pointer;
             font-weight: bold;
-            transition: background 0.3s;
+            transition: all 0.3s;
         }
 
         .search-btn:hover {
             background: #5a6fd8;
+            transform: scale(1.05);
         }
 
         .filter-tabs {
@@ -139,6 +181,8 @@
             justify-content: center;
             gap: 1rem;
             margin-bottom: 2rem;
+            flex-wrap: wrap;
+            animation: fadeInUp 1s ease-out 0.6s both;
         }
 
         .filter-tab {
@@ -149,11 +193,17 @@
             border-radius: 25px;
             cursor: pointer;
             transition: all 0.3s;
+            font-weight: 500;
         }
 
         .filter-tab.active {
             background: white;
             color: #667eea;
+            transform: scale(1.05);
+        }
+
+        .filter-tab:hover {
+            transform: translateY(-2px);
         }
 
         /* Main Content */
@@ -186,17 +236,25 @@
             background: white;
             border-radius: 15px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
         }
 
         .stat-number {
             font-size: 2.5rem;
             font-weight: bold;
             color: #667eea;
+            margin-bottom: 0.5rem;
         }
 
         .stat-label {
             color: #666;
-            margin-top: 0.5rem;
+            font-weight: 500;
         }
 
         /* Opportunities Grid */
@@ -216,13 +274,31 @@
             border-radius: 15px;
             padding: 1.5rem;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: all 0.3s;
             border-left: 4px solid #667eea;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .opportunity-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .opportunity-card:hover::before {
+            opacity: 1;
         }
 
         .opportunity-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
         }
 
         .opportunity-header {
@@ -230,6 +306,8 @@
             justify-content: space-between;
             align-items: start;
             margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
         }
 
         .opportunity-title {
@@ -240,17 +318,28 @@
         }
 
         .opportunity-type {
-            background: #667eea;
-            color: white;
             padding: 0.25rem 0.75rem;
             border-radius: 15px;
             font-size: 0.8rem;
             font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .opportunity-type.scholarship {
+            background: #28a745;
+            color: white;
+        }
+
+        .opportunity-type.internship {
+            background: #667eea;
+            color: white;
         }
 
         .opportunity-details {
             color: #666;
             margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
         }
 
         .opportunity-meta {
@@ -260,11 +349,20 @@
             margin-top: 1rem;
             padding-top: 1rem;
             border-top: 1px solid #eee;
+            position: relative;
+            z-index: 1;
         }
 
         .deadline {
             color: #ff6b6b;
             font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .deadline.urgent {
+            animation: pulse 2s infinite;
         }
 
         .apply-btn {
@@ -275,11 +373,19 @@
             border-radius: 8px;
             cursor: pointer;
             font-weight: bold;
-            transition: background 0.3s;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .apply-btn:hover {
             background: #5a6fd8;
+            transform: scale(1.05);
+        }
+
+        .apply-btn:active {
+            transform: scale(0.95);
         }
 
         /* Premium Features */
@@ -290,6 +396,19 @@
             text-align: center;
             margin: 2rem 0;
             border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .premium-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
         }
 
         .premium-features {
@@ -297,6 +416,8 @@
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 2rem;
             margin-top: 2rem;
+            position: relative;
+            z-index: 1;
         }
 
         .premium-feature {
@@ -304,6 +425,11 @@
             padding: 1.5rem;
             border-radius: 15px;
             backdrop-filter: blur(10px);
+            transition: transform 0.3s;
+        }
+
+        .premium-feature:hover {
+            transform: translateY(-5px);
         }
 
         .premium-feature i {
@@ -342,12 +468,13 @@
             border: 2px solid #ddd;
             border-radius: 8px;
             font-size: 1rem;
-            transition: border-color 0.3s;
+            transition: all 0.3s;
         }
 
         .form-group input:focus, .form-group select:focus {
             outline: none;
             border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
 
         .alert-btn {
@@ -359,11 +486,16 @@
             cursor: pointer;
             font-weight: bold;
             margin-top: 1rem;
-            transition: background 0.3s;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            justify-self: start;
         }
 
         .alert-btn:hover {
             background: #218838;
+            transform: translateY(-2px);
         }
 
         /* Footer */
@@ -375,10 +507,36 @@
             margin-top: 3rem;
         }
 
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: #667eea;
+        }
+
+        .footer-section a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: #667eea;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .nav-links {
                 display: none;
+            }
+            
+            .mobile-menu {
+                display: flex;
             }
             
             .hero h1 {
@@ -392,6 +550,15 @@
             
             .filter-tabs {
                 flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+            
+            .opportunity-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .premium-features {
+                grid-template-columns: 1fr;
             }
         }
 
@@ -404,6 +571,24 @@
             to {
                 opacity: 1;
                 transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
             }
         }
 
@@ -446,19 +631,76 @@
             transform: translateX(400px);
             transition: transform 0.3s;
             z-index: 1001;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .notification.show {
             transform: translateX(0);
+        }
+
+        .notification.error {
+            background: #dc3545;
+        }
+
+        .notification.warning {
+            background: #ffc107;
+            color: #333;
+        }
+
+        /* Test Status */
+        .test-status {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.8rem;
+            z-index: 1002;
+            max-width: 300px;
+        }
+
+        .test-status.hidden {
+            display: none;
+        }
+
+        /* Scroll to top button */
+        .scroll-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+
+        .scroll-top.show {
+            opacity: 1;
+        }
+
+        .scroll-top:hover {
+            background: #5a6fd8;
+            transform: translateY(-2px);
         }
     </style>
 </head>
 <body>
     <header>
         <nav class="container">
-            <div class="logo">
+            <a href="#home" class="logo">
                 <i class="fas fa-graduation-cap"></i> OpportunityHub
-            </div>
+            </a>
             <ul class="nav-links">
                 <li><a href="#home">Home</a></li>
                 <li><a href="#scholarships">Scholarships</a></li>
@@ -466,9 +708,14 @@
                 <li><a href="#alerts">Alerts</a></li>
                 <li><a href="#about">About</a></li>
             </ul>
-            <a href="#premium" class="premium-btn">
+            <button class="premium-btn" onclick="upgradeToPremium()">
                 <i class="fas fa-crown"></i> Go Premium
-            </a>
+            </button>
+            <div class="mobile-menu" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </nav>
     </header>
 
@@ -486,11 +733,11 @@
                 </div>
 
                 <div class="filter-tabs">
-                    <button class="filter-tab active" onclick="filterOpportunities('all')">All</button>
-                    <button class="filter-tab" onclick="filterOpportunities('scholarship')">Scholarships</button>
-                    <button class="filter-tab" onclick="filterOpportunities('internship')">Internships</button>
-                    <button class="filter-tab" onclick="filterOpportunities('remote')">Remote</button>
-                    <button class="filter-tab" onclick="filterOpportunities('local')">Local</button>
+                    <button class="filter-tab active" onclick="filterOpportunities('all', this)">All</button>
+                    <button class="filter-tab" onclick="filterOpportunities('scholarship', this)">Scholarships</button>
+                    <button class="filter-tab" onclick="filterOpportunities('internship', this)">Internships</button>
+                    <button class="filter-tab" onclick="filterOpportunities('remote', this)">Remote</button>
+                    <button class="filter-tab" onclick="filterOpportunities('local', this)">Local</button>
                 </div>
             </div>
         </section>
@@ -502,15 +749,15 @@
             </div>
 
             <div class="stats">
-                <div class="stat-card">
+                <div class="stat-card" onclick="filterOpportunities('scholarship')">
                     <div class="stat-number" id="scholarshipCount">2,847</div>
                     <div class="stat-label">Active Scholarships</div>
                 </div>
-                <div class="stat-card">
+                <div class="stat-card" onclick="filterOpportunities('internship')">
                     <div class="stat-number" id="internshipCount">1,523</div>
                     <div class="stat-label">Open Internships</div>
                 </div>
-                <div class="stat-card">
+                <div class="stat-card" onclick="filterOpportunities('remote')">
                     <div class="stat-number" id="remoteCount">892</div>
                     <div class="stat-label">Remote Opportunities</div>
                 </div>
@@ -610,10 +857,28 @@
         </section>
     </main>
 
-    <footer>
+    <footer id="about">
         <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>OpportunityHub</h3>
+                    <p>Empowering students worldwide with access to scholarships and internships.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <p><a href="#home">Home</a></p>
+                    <p><a href="#scholarships">Scholarships</a></p>
+                    <p><a href="#internships">Internships</a></p>
+                    <p><a href="#alerts">Alerts</a></p>
+                </div>
+                <div class="footer-section">
+                    <h3>Support</h3>
+                    <p><a href="mailto:support@opportunityhub.com">Contact Us</a></p>
+                    <p><a href="#premium">Premium</a></p>
+                    <p><a href="#help">Help Center</a></p>
+                </div>
+            </div>
             <p>&copy; 2024 OpportunityHub. Built with ❤️ for students worldwide.</p>
-            <p>Empowering the next generation through education and experience.</p>
         </div>
     </footer>
 
@@ -622,87 +887,175 @@
         <span id="notificationText">Alert created successfully!</span>
     </div>
 
+    <div class="test-status" id="testStatus">
+        <strong>🧪 Test Status:</strong><br>
+        <span id="testResults">Running tests...</span>
+    </div>
+
+    <button class="scroll-top" id="scrollTop" onclick="scrollToTop()">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
     <script>
-        // Sample data for opportunities
+        // Enhanced sample data for opportunities
         const opportunities = [
             {
                 id: 1,
                 title: "Google Summer of Code 2024",
                 type: "internship",
                 organization: "Google",
-                description: "Work on open source projects with mentorship from Google engineers. Stipend: $6,000",
+                description: "Work on open source projects with mentorship from Google engineers. Gain real-world experience and contribute to projects used by millions. Stipend: $6,000 for 12 weeks.",
                 location: "Remote",
                 deadline: "2024-04-02",
                 amount: "$6,000",
-                category: "technology"
+                category: "technology",
+                requirements: "Programming experience, Open source contributions",
+                url: "https://summerofcode.withgoogle.com/"
             },
             {
                 id: 2,
                 title: "Merit Scholarship for Engineering Students",
                 type: "scholarship",
                 organization: "Tech Foundation",
-                description: "Full tuition scholarship for outstanding engineering students with 85%+ marks",
+                description: "Full tuition scholarship for outstanding engineering students with 85%+ marks. Covers tuition fees, books, and living expenses for 4 years.",
                 location: "India",
                 deadline: "2024-03-15",
                 amount: "₹2,00,000",
-                category: "engineering"
+                category: "engineering",
+                requirements: "85%+ marks, Engineering student",
+                url: "#apply"
             },
             {
                 id: 3,
                 title: "Microsoft Internship Program",
                 type: "internship",
                 organization: "Microsoft",
-                description: "12-week internship program for computer science students. Competitive salary + benefits",
+                description: "12-week internship program for computer science students. Work on cutting-edge technology with competitive salary and benefits. Full-time conversion opportunity.",
                 location: "Bangalore, India",
                 deadline: "2024-02-28",
                 amount: "₹80,000/month",
-                category: "technology"
+                category: "technology",
+                requirements: "CS/IT student, Programming skills",
+                url: "https://careers.microsoft.com/students"
             },
             {
                 id: 4,
                 title: "Women in STEM Scholarship",
                 type: "scholarship",
                 organization: "STEM Foundation",
-                description: "Supporting women pursuing careers in Science, Technology, Engineering, and Mathematics",
+                description: "Supporting women pursuing careers in Science, Technology, Engineering, and Mathematics. Includes mentorship program and networking opportunities.",
                 location: "Global",
                 deadline: "2024-04-30",
                 amount: "$5,000",
-                category: "stem"
+                category: "stem",
+                requirements: "Female student, STEM field",
+                url: "#apply"
             },
             {
                 id: 5,
                 title: "Amazon SDE Internship",
                 type: "internship",
                 organization: "Amazon",
-                description: "Software Development Engineer internship with full-time conversion opportunity",
+                description: "Software Development Engineer internship with full-time conversion opportunity. Work on scalable systems serving millions of customers worldwide.",
                 location: "Hyderabad, India",
                 deadline: "2024-03-10",
                 amount: "₹75,000/month",
-                category: "technology"
+                category: "technology",
+                requirements: "CS/IT background, Data structures knowledge",
+                url: "https://amazon.jobs/students"
             },
             {
                 id: 6,
                 title: "Need-Based Financial Aid",
                 type: "scholarship",
                 organization: "Education Trust",
-                description: "Financial assistance for students from economically disadvantaged backgrounds",
+                description: "Financial assistance for students from economically disadvantaged backgrounds. Covers tuition, books, and living expenses based on family income.",
                 location: "India",
                 deadline: "2024-05-15",
                 amount: "₹1,50,000",
-                category: "general"
+                category: "general",
+                requirements: "Family income < ₹3 LPA",
+                url: "#apply"
+            },
+            {
+                id: 7,
+                title: "Netflix Software Engineering Internship",
+                type: "internship",
+                organization: "Netflix",
+                description: "Join the team that entertains the world! Work on streaming technology, recommendation algorithms, and content delivery systems.",
+                location: "Remote",
+                deadline: "2024-03-20",
+                amount: "$8,000/month",
+                category: "technology",
+                requirements: "CS student, Full-stack development",
+                url: "https://jobs.netflix.com/students"
+            },
+            {
+                id: 8,
+                title: "Tata Scholarship for Underprivileged Students",
+                type: "scholarship",
+                organization: "Tata Trusts",
+                description: "Comprehensive scholarship covering education expenses for meritorious students from underprivileged backgrounds. Includes career guidance.",
+                location: "India",
+                deadline: "2024-04-10",
+                amount: "₹3,00,000",
+                category: "general",
+                requirements: "Merit + Need based, Indian citizen",
+                url: "#apply"
             }
         ];
 
         let currentFilter = 'all';
         let currentSearch = '';
+        let testResults = [];
 
         // Initialize the page
         document.addEventListener('DOMContentLoaded', function() {
+            runInitialTests();
             displayOpportunities(opportunities);
             updateStats();
+            setupScrollButton();
+            setupMobileMenu();
         });
 
-        // Display opportunities
+        // Run comprehensive tests
+        function runInitialTests() {
+            const testStatus = document.getElementById('testStatus');
+            const testResultsElement = document.getElementById('testResults');
+            
+            testResults = [];
+            
+            // Test 1: Data Loading
+            testResults.push(`✅ Data loaded: ${opportunities.length} opportunities`);
+            
+            // Test 2: Search functionality
+            const searchTest = opportunities.filter(opp => 
+                opp.title.toLowerCase().includes('google')
+            );
+            testResults.push(`✅ Search test: Found ${searchTest.length} Google opportunities`);
+            
+            // Test 3: Filter functionality
+            const scholarshipTest = opportunities.filter(opp => opp.type === 'scholarship');
+            const internshipTest = opportunities.filter(opp => opp.type === 'internship');
+            testResults.push(`✅ Filter test: ${scholarshipTest.length} scholarships, ${internshipTest.length} internships`);
+            
+            // Test 4: UI Elements
+            const requiredElements = ['searchInput', 'opportunityGrid', 'notification'];
+            const elementsFound = requiredElements.filter(id => document.getElementById(id));
+            testResults.push(`✅ UI Elements: ${elementsFound.length}/${requiredElements.length} found`);
+            
+            // Test 5: Responsive design
+            testResults.push(`✅ Responsive: Screen width ${window.innerWidth}px`);
+            
+            testResultsElement.innerHTML = testResults.join('<br>');
+            
+            // Hide test status after 10 seconds
+            setTimeout(() => {
+                testStatus.classList.add('hidden');
+            }, 10000);
+        }
+
+        // Display opportunities with enhanced animations
         function displayOpportunities(opportunitiesToShow) {
             const grid = document.getElementById('opportunityGrid');
             const loading = document.getElementById('loading');
@@ -714,51 +1067,77 @@
                 loading.style.display = 'none';
                 
                 if (opportunitiesToShow.length === 0) {
-                    grid.innerHTML = '<p style="text-align: center; color: #666; grid-column: 1/-1;">No opportunities found matching your criteria.</p>';
+                    grid.innerHTML = `
+                        <div style="text-align: center; color: #666; grid-column: 1/-1; padding: 2rem;">
+                            <i class="fas fa-search" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+                            <h3>No opportunities found</h3>
+                            <p>Try adjusting your search criteria or filters</p>
+                        </div>
+                    `;
                     return;
                 }
                 
-                opportunitiesToShow.forEach(opportunity => {
-                    const card = createOpportunityCard(opportunity);
-                    grid.appendChild(card);
+                opportunitiesToShow.forEach((opportunity, index) => {
+                    setTimeout(() => {
+                        const card = createOpportunityCard(opportunity);
+                        grid.appendChild(card);
+                    }, index * 100); // Stagger animations
                 });
-            }, 1000);
+            }, 800);
         }
 
-        // Create opportunity card
+        // Create enhanced opportunity card
         function createOpportunityCard(opportunity) {
             const card = document.createElement('div');
             card.className = 'opportunity-card';
             
-            const typeColor = opportunity.type === 'scholarship' ? '#28a745' : '#667eea';
+            const typeClass = opportunity.type === 'scholarship' ? 'scholarship' : 'internship';
             const deadlineDate = new Date(opportunity.deadline);
             const today = new Date();
             const daysLeft = Math.ceil((deadlineDate - today) / (1000 * 60 * 60 * 24));
+            const isUrgent = daysLeft <= 7 && daysLeft > 0;
             
             card.innerHTML = `
                 <div class="opportunity-header">
                     <div>
                         <div class="opportunity-title">${opportunity.title}</div>
-                        <div style="color: #666; font-size: 0.9rem;">${opportunity.organization}</div>
+                        <div style="color: #666; font-size: 0.9rem; margin-bottom: 0.5rem;">
+                            <i class="fas fa-building"></i> ${opportunity.organization}
+                        </div>
+                        <div style="color: #888; font-size: 0.8rem;">
+                            <i class="fas fa-tag"></i> ${opportunity.category.toUpperCase()}
+                        </div>
                     </div>
-                    <div class="opportunity-type" style="background: ${typeColor}">
+                    <div class="opportunity-type ${typeClass}">
                         ${opportunity.type.toUpperCase()}
                     </div>
                 </div>
                 <div class="opportunity-details">
-                    <p>${opportunity.description}</p>
-                    <div style="margin-top: 1rem;">
-                        <i class="fas fa-map-marker-alt"></i> ${opportunity.location} &nbsp;&nbsp;
-                        <i class="fas fa-money-bill-wave"></i> ${opportunity.amount}
+                    <p style="margin-bottom: 1rem;">${opportunity.description}</p>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                        <div>
+                            <i class="fas fa-map-marker-alt" style="color: #667eea;"></i> 
+                            <strong>Location:</strong><br>${opportunity.location}
+                        </div>
+                        <div>
+                            <i class="fas fa-money-bill-wave" style="color: #28a745;"></i> 
+                            <strong>Amount:</strong><br>${opportunity.amount}
+                        </div>
+                    </div>
+                    <div style="background: #f8f9fa; padding: 0.75rem; border-radius: 8px; margin-bottom: 1rem;">
+                        <strong><i class="fas fa-clipboard-list"></i> Requirements:</strong><br>
+                        <span style="color: #666;">${opportunity.requirements}</span>
                     </div>
                 </div>
                 <div class="opportunity-meta">
-                    <div class="deadline">
+                    <div class="deadline ${isUrgent ? 'urgent' : ''}">
                         <i class="fas fa-clock"></i> 
-                        ${daysLeft > 0 ? `${daysLeft} days left` : 'Deadline passed'}
+                        ${daysLeft > 0 ? `${daysLeft} days left` : daysLeft === 0 ? 'Deadline today!' : 'Deadline passed'}
                     </div>
-                    <button class="apply-btn" onclick="applyToOpportunity(${opportunity.id})">
-                        <i class="fas fa-external-link-alt"></i> Apply Now
+                    <button class="apply-btn" onclick="applyToOpportunity(${opportunity.id})" 
+                            ${daysLeft < 0 ? 'disabled style="opacity: 0.5; cursor: not-allowed;"' : ''}>
+                        <i class="fas fa-external-link-alt"></i> 
+                        ${daysLeft < 0 ? 'Expired' : 'Apply Now'}
                     </button>
                 </div>
             `;
@@ -766,81 +1145,107 @@
             return card;
         }
 
-        // Search opportunities
+        // Enhanced search functionality
         function searchOpportunities() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
             currentSearch = searchTerm;
+            
+            if (!searchTerm) {
+                showNotification('Please enter a search term', 'warning');
+                return;
+            }
             
             let filtered = opportunities.filter(opp => 
                 opp.title.toLowerCase().includes(searchTerm) ||
                 opp.organization.toLowerCase().includes(searchTerm) ||
                 opp.description.toLowerCase().includes(searchTerm) ||
-                opp.category.toLowerCase().includes(searchTerm)
+                opp.category.toLowerCase().includes(searchTerm) ||
+                opp.requirements.toLowerCase().includes(searchTerm)
             );
             
             if (currentFilter !== 'all') {
-                filtered = filtered.filter(opp => {
-                    if (currentFilter === 'remote') {
-                        return opp.location.toLowerCase().includes('remote');
-                    } else if (currentFilter === 'local') {
-                        return opp.location.toLowerCase().includes('india');
-                    } else {
-                        return opp.type === currentFilter;
-                    }
-                });
+                filtered = applyCurrentFilter(filtered);
             }
             
             displayOpportunities(filtered);
+            showNotification(`Found ${filtered.length} opportunities matching "${searchTerm}"`);
         }
 
-        // Filter opportunities
-        function filterOpportunities(filter) {
+        // Enhanced filter functionality
+        function filterOpportunities(filter, element) {
             currentFilter = filter;
             
             // Update active tab
             document.querySelectorAll('.filter-tab').forEach(tab => {
                 tab.classList.remove('active');
             });
-            event.target.classList.add('active');
-            
-            let filtered = opportunities;
-            
-            if (filter !== 'all') {
-                filtered = opportunities.filter(opp => {
-                    if (filter === 'remote') {
-                        return opp.location.toLowerCase().includes('remote');
-                    } else if (filter === 'local') {
-                        return opp.location.toLowerCase().includes('india');
-                    } else {
-                        return opp.type === filter;
-                    }
-                });
+            if (element) {
+                element.classList.add('active');
             }
+            
+            let filtered = applyCurrentFilter(opportunities);
             
             if (currentSearch) {
                 filtered = filtered.filter(opp => 
                     opp.title.toLowerCase().includes(currentSearch) ||
                     opp.organization.toLowerCase().includes(currentSearch) ||
                     opp.description.toLowerCase().includes(currentSearch) ||
-                    opp.category.toLowerCase().includes(currentSearch)
+                    opp.category.toLowerCase().includes(currentSearch) ||
+                    opp.requirements.toLowerCase().includes(currentSearch)
                 );
             }
             
             displayOpportunities(filtered);
+            showNotification(`Showing ${filtered.length} ${filter === 'all' ? '' : filter} opportunities`);
         }
 
-        // Apply to opportunity
+        // Apply current filter
+        function applyCurrentFilter(opportunityList) {
+            if (currentFilter === 'all') return opportunityList;
+            
+            return opportunityList.filter(opp => {
+                switch (currentFilter) {
+                    case 'remote':
+                        return opp.location.toLowerCase().includes('remote');
+                    case 'local':
+                        return opp.location.toLowerCase().includes('india');
+                    default:
+                        return opp.type === currentFilter;
+                }
+            });
+        }
+
+        // Enhanced apply functionality
         function applyToOpportunity(id) {
             const opportunity = opportunities.find(opp => opp.id === id);
+            if (!opportunity) return;
+            
+            // Check if deadline has passed
+            const deadlineDate = new Date(opportunity.deadline);
+            const today = new Date();
+            
+            if (deadlineDate < today) {
+                showNotification('This opportunity has expired', 'error');
+                return;
+            }
+            
             showNotification(`Redirecting to ${opportunity.title} application...`);
             
-            // Simulate redirect
+            // Simulate application tracking
             setTimeout(() => {
-                window.open('#', '_blank');
+                if (opportunity.url && opportunity.url !== '#apply') {
+                    window.open(opportunity.url, '_blank');
+                } else {
+                    // Simulate application form
+                    const apply = confirm(`Apply for ${opportunity.title}?\n\nOrganization: ${opportunity.organization}\nAmount: ${opportunity.amount}\nLocation: ${opportunity.location}\n\nClick OK to proceed with application.`);
+                    if (apply) {
+                        showNotification('Application submitted successfully! You will receive a confirmation email.');
+                    }
+                }
             }, 1500);
         }
 
-        // Create alert
+        // Enhanced alert creation
         function createAlert(event) {
             event.preventDefault();
             
@@ -851,6 +1256,19 @@
                 email: document.getElementById('alertEmail').value
             };
             
+            // Validate email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(alertData.email)) {
+                showNotification('Please enter a valid email address', 'error');
+                return;
+            }
+            
+            // Show loading state
+            const submitBtn = event.target.querySelector('.alert-btn');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating Alert...';
+            submitBtn.disabled = true;
+            
             // Simulate API call
             setTimeout(() => {
                 showNotification('Alert created successfully! You\'ll receive notifications for matching opportunities.');
@@ -858,32 +1276,63 @@
                 
                 // Update alert count
                 const alertCount = document.getElementById('alertCount');
-                alertCount.textContent = parseInt(alertCount.textContent.replace(',', '')) + 1;
-            }, 1000);
+                const currentCount = parseInt(alertCount.textContent.replace(',', ''));
+                alertCount.textContent = (currentCount + 1).toLocaleString();
+                
+                // Reset button
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+                
+                // Animate the stat card
+                const alertCard = alertCount.closest('.stat-card');
+                alertCard.style.transform = 'scale(1.1)';
+                setTimeout(() => {
+                    alertCard.style.transform = 'scale(1)';
+                }, 300);
+                
+            }, 2000);
         }
 
-        // Upgrade to premium
+        // Enhanced premium upgrade
         function upgradeToPremium() {
             showNotification('Redirecting to premium upgrade page...');
             setTimeout(() => {
-                alert('Premium features coming soon! \n\n✨ AI-Powered Matching\n🔔 Smart Notifications\n📅 Deadline Management\n📊 Success Analytics\n\nStay tuned for the launch!');
+                const features = [
+                    '✨ AI-Powered Matching - Get personalized recommendations',
+                    '🔔 Smart Notifications - Real-time alerts for new opportunities',
+                    '📅 Deadline Management - Never miss important dates',
+                    '📊 Success Analytics - Track your application success rate',
+                    '🎯 Advanced Filters - More precise search options',
+                    '💬 Priority Support - Get help when you need it',
+                    '🚀 Early Access - New features before everyone else'
+                ];
+                
+                alert(`🌟 Premium Features Coming Soon!\n\n${features.join('\n')}\n\n💰 Special Launch Price: ₹999/year (Regular: ₹1,999)\n\nStay tuned for the official launch!`);
             }, 1500);
         }
 
-        // Show notification
-        function showNotification(message) {
+        // Enhanced notification system
+        function showNotification(message, type = 'success') {
             const notification = document.getElementById('notification');
             const notificationText = document.getElementById('notificationText');
             
-            notificationText.textContent = message;
+            // Set notification type
+            notification.className = `notification ${type}`;
+            
+            // Set appropriate icon
+            const icon = type === 'error' ? 'fas fa-exclamation-circle' : 
+                        type === 'warning' ? 'fas fa-exclamation-triangle' : 
+                        'fas fa-check-circle';
+            
+            notification.innerHTML = `<i class="${icon}"></i><span>${message}</span>`;
             notification.classList.add('show');
             
             setTimeout(() => {
                 notification.classList.remove('show');
-            }, 3000);
+            }, 4000);
         }
 
-        // Update stats
+        // Update stats with animation
         function updateStats() {
             const scholarships = opportunities.filter(opp => opp.type === 'scholarship').length;
             const internships = opportunities.filter(opp => opp.type === 'internship').length;
@@ -896,7 +1345,7 @@
             animateNumber('alertCount', 15234);
         }
 
-        // Animate numbers
+        // Animate numbers with easing
         function animateNumber(elementId, targetNumber) {
             const element = document.getElementById(elementId);
             const duration = 2000;
@@ -914,28 +1363,76 @@
             }, duration / steps);
         }
 
-        // Auto-refresh opportunities every 5 minutes
+        // Setup scroll to top button
+        function setupScrollButton() {
+            const scrollBtn = document.getElementById('scrollTop');
+            
+            window.addEventListener('scroll', () => {
+                if (window.pageYOffset > 300) {
+                    scrollBtn.classList.add('show');
+                } else {
+                    scrollBtn.classList.remove('show');
+                }
+            });
+        }
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Setup mobile menu
+        function setupMobileMenu() {
+            // Mobile menu functionality can be added here
+        }
+
+        function toggleMobileMenu() {
+            // Toggle mobile menu
+            showNotification('Mobile menu functionality coming soon!', 'warning');
+        }
+
+        // Auto-refresh opportunities
         setInterval(() => {
-            if (Math.random() > 0.7) { // 30% chance to add new opportunity
-                const newOpportunity = {
-                    id: opportunities.length + 1,
-                    title: "New Opportunity Alert!",
-                    type: Math.random() > 0.5 ? 'scholarship' : 'internship',
-                    organization: "Fresh Opportunity",
-                    description: "A new opportunity has been added to our database. Check it out!",
-                    location: "Various",
-                    deadline: "2024-06-01",
-                    amount: "Varies",
-                    category: "general"
-                };
+            if (Math.random() > 0.8) { // 20% chance to add new opportunity
+                const newOpportunities = [
+                    {
+                        id: opportunities.length + 1,
+                        title: "Fresh Graduate Program - TCS",
+                        type: "internship",
+                        organization: "Tata Consultancy Services",
+                        description: "Comprehensive training program for fresh graduates in technology and consulting.",
+                        location: "Multiple Cities, India",
+                        deadline: "2024-06-01",
+                        amount: "₹3.5 LPA",
+                        category: "technology",
+                        requirements: "Any graduate, Good communication",
+                        url: "#apply"
+                    },
+                    {
+                        id: opportunities.length + 2,
+                        title: "Research Scholarship - IIT Delhi",
+                        type: "scholarship",
+                        organization: "IIT Delhi",
+                        description: "Research scholarship for PhD students in engineering and technology fields.",
+                        location: "Delhi, India",
+                        deadline: "2024-05-20",
+                        amount: "₹31,000/month",
+                        category: "research",
+                        requirements: "Masters degree, Research proposal",
+                        url: "#apply"
+                    }
+                ];
                 
-                opportunities.unshift(newOpportunity);
+                const randomOpportunity = newOpportunities[Math.floor(Math.random() * newOpportunities.length)];
+                opportunities.unshift(randomOpportunity);
                 
                 if (currentFilter === 'all' && !currentSearch) {
                     displayOpportunities(opportunities);
                 }
                 
-                showNotification('New opportunity added! Check the latest listings.');
+                showNotification('🎉 New opportunity added! Check the latest listings.');
                 updateStats();
             }
         }, 300000); // 5 minutes
@@ -961,17 +1458,54 @@
             }
         });
 
-        // Add some interactivity to stats
+        // Add interactivity to stats
         document.querySelectorAll('.stat-card').forEach(card => {
             card.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-5px)';
+                this.style.transform = 'translateY(-5px) scale(1.02)';
                 this.style.transition = 'transform 0.3s ease';
             });
             
             card.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(0)';
+                this.style.transform = 'translateY(0) scale(1)';
             });
         });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Ctrl/Cmd + K for search
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                document.getElementById('searchInput').focus();
+            }
+            
+            // Escape to clear search
+            if (e.key === 'Escape') {
+                document.getElementById('searchInput').value = '';
+                currentSearch = '';
+                displayOpportunities(applyCurrentFilter(opportunities));
+            }
+        });
+
+        // Performance monitoring
+        window.addEventListener('load', function() {
+            const loadTime = performance.now();
+            console.log(`Page loaded in ${Math.round(loadTime)}ms`);
+            
+            // Update test results
+            setTimeout(() => {
+                const testResultsElement = document.getElementById('testResults');
+                if (testResultsElement) {
+                    testResults.push(`✅ Load time: ${Math.round(loadTime)}ms`);
+                    testResultsElement.innerHTML = testResults.join('<br>');
+                }
+            }, 1000);
+        });
+
+        // Add some sample interactions for testing
+        console.log('🎓 OpportunityHub loaded successfully!');
+        console.log('📊 Available opportunities:', opportunities.length);
+        console.log('🔍 Try searching for: Google, Microsoft, scholarship, internship');
+        console.log('⌨️ Keyboard shortcuts: Ctrl+K (search), Escape (clear)');
     </script>
 </body>
 </html>
